@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" >
+
+    <EditText
+        android:id="@+id/etAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="@string/tfAmount"
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/btnTip5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etAmount"
+        android:layout_centerVertical="true"
+        android:text="@string/strFive" />
+        
+    <Button
+        android:id="@+id/btnTip10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/btnTip5"
+        android:text="@string/strTen" />
+
+    <Button
+        android:id="@+id/btnTip15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/btnTip10"
+        android:text="@string/strFifteen" />
+
+    <TextView
+        android:id="@+id/tvTipValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnTip5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>
