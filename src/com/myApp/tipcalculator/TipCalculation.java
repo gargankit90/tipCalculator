@@ -120,7 +120,7 @@ public class TipCalculation extends Activity {
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
 				Log.i("After Text Changed", s.toString());
-				amount = Float.parseFloat(s.toString());
+				amount = s.toString().equalsIgnoreCase("") ? 0 :Float.parseFloat(s.toString());
 				compute();
 				render();
 			}
@@ -182,6 +182,7 @@ public class TipCalculation extends Activity {
 		totalAmount = amount + totalTip;
 		Log.i("Total amount", totalAmount + "");
 		eachPays = totalAmount / people;
+		eachPays = (float) Math.ceil(eachPays);
 		Log.i("Each Pays", eachPays + "");
 	}
 
