@@ -5,61 +5,196 @@ import java.util.logging.Logger;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class TipCalculation extends Activity {
 	private EditText etAmount;
-	private TextView tvTipValue;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tip_calculation);
-        etAmount = (EditText) findViewById(R.id.etAmount);
-        tvTipValue =  (TextView) findViewById(R.id.tvTipValue);
-        findViewById(R.id.btnTip5).setOnClickListener(tipCalculation_OnClickListener);
-        findViewById(R.id.btnTip10).setOnClickListener(tipCalculation_OnClickListener);
-        findViewById(R.id.btnTip15).setOnClickListener(tipCalculation_OnClickListener);
-    }
-    
-    protected float computeTip(float amount, float tipPercent) {
-		float tip = amount*tipPercent/100;
-    	return tip;
+	private EditText etTipValue;
+	private SeekBar sbTip;
+	private EditText etPeople;
+	private SeekBar sbPeople;
+	private float amount = 0;
+	private float tip = 0;
+	private int people = 0;
+	private float totalAmount = 0;
+	private float totalTip = 0;
+	private float eachPays = 0;
+	private TextView tvTipAmount;
+	private TextView tvTotalBill;
+	private TextView tvEachPays;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_tip_calculation);
+		etAmount = (EditText) findViewById(R.id.etAmount);
+		etTipValue = (EditText) findViewById(R.id.etTip);
+		sbTip = (SeekBar) findViewById(R.id.sbTip);
+		etPeople = (EditText) findViewById(R.id.etPeople);
+		sbPeople = (SeekBar) findViewById(R.id.sbPeople);
+		tvTipAmount = (TextView) findViewById(R.id.tvValTipAmount);
+		tvTotalBill = (TextView) findViewById(R.id.tvValTotalBill);
+		tvEachPays = (TextView) findViewById(R.id.tvValEachPay);
+		etTipValue.setText(sbTip.getProgress() * 5 + "");
+		etPeople.setText(sbPeople.getProgress() + 1 + "");
+		tip = sbTip.getProgress() * 5;
+		people = sbPeople.getProgress() + 1;
+		sbTip.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			int progressChanged = 0;
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				progressChanged = progress * 5;
+				etTipValue.setText(progressChanged + "");
+				tip = progressChanged;
+				compute();
+				render();
+			}
+		});
+
+		sbPeople.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			int progressChanged = 0;
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				progressChanged = progress + 1;
+				etPeople.setText(progressChanged + "");
+				people = progressChanged;
+				compute();
+				render();
+			}
+		});
+
+		etAmount.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				// Log.i("on Text Changed", s.toString());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				Log.i("After Text Changed", s.toString());
+				amount = Float.parseFloat(s.toString());
+				compute();
+				render();
+			}
+		});
+		
+		etTipValue.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				tip = s.toString().equalsIgnoreCase("") ? 0 :Float.parseFloat(s.toString());
+				compute();
+				render();
+			}
+		});
+		
+		etPeople.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				Log.i("Error Case", s.toString());
+				people = s.toString().equalsIgnoreCase("") ? 0 : Integer.parseInt(s.toString());
+				compute();
+				render();
+			}
+		});
 	}
-    
-    //Global On click listener for all views
-    final OnClickListener tipCalculation_OnClickListener = new OnClickListener() {
-        public void onClick(final View v) {
-        	float amount = Float.parseFloat(etAmount.getText().toString());
-        	float tip = 0,tipPercent= 0;
-        	Log.i("Button Clicked","Amount is : "+amount);
-            switch(v.getId()) {
-                case R.id.btnTip5:
-                    //Inform the user the button1 has been clicked
-//                    Toast.makeText(v.getContext(),"5 clicked", Toast.LENGTH_LONG);      
-                	Log.i("Button Clicked","5 % clciked");
-                	tipPercent = 5;
-                break;
-                case R.id.btnTip10:
-                    //Inform the user the button2 has been clicked
-//                	Toast.makeText(v.getContext(),"10 clicked", Toast.LENGTH_LONG);
-                	Log.i("Button Clicked","10 % clciked");
-                	tipPercent = 10;
-                break;
-                case R.id.btnTip15:
-                    //Inform the user the button2 has been clicked
-//                	Toast.makeText(v.getContext(),"15 clicked", Toast.LENGTH_LONG);
-                	Log.i("Button Clicked","15 % clciked");
-                	tipPercent = 15;
-                break;
-            }
-            tip = computeTip(amount, tipPercent);
-            tvTipValue.setText("Your Tip is :  $"+tip);
-        }
-    };
-    
+
+	protected void compute() {
+		totalTip = amount * tip / 100;
+		Log.i("Total Tip", totalTip + "");
+		totalAmount = amount + totalTip;
+		Log.i("Total amount", totalAmount + "");
+		eachPays = totalAmount / people;
+		Log.i("Each Pays", eachPays + "");
+	}
+
+	protected void render() {
+		tvTipAmount.setText("$" + totalTip);
+		tvTotalBill.setText("$" + totalAmount);
+		tvEachPays.setText("$" + eachPays);
+
+	}
+	
+	private void OrientationEventListener() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

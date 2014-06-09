@@ -11,14 +11,26 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int divider=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int rounded_corner=0x7f020002;
     }
     public static final class id {
-        public static final int btnTip10=0x7f060002;
-        public static final int btnTip15=0x7f060003;
-        public static final int btnTip5=0x7f060001;
-        public static final int etAmount=0x7f060000;
-        public static final int tvTipValue=0x7f060004;
+        public static final int etAmount=0x7f060001;
+        public static final int etPeople=0x7f060007;
+        public static final int etTip=0x7f060004;
+        public static final int llOutput=0x7f060008;
+        public static final int lltipControls=0x7f060000;
+        public static final int sbPeople=0x7f060006;
+        public static final int sbTip=0x7f060003;
+        public static final int tvLblEachPay=0x7f06000d;
+        public static final int tvLblTipAmount=0x7f060009;
+        public static final int tvLblTotalBill=0x7f06000b;
+        public static final int tvPeople=0x7f060005;
+        public static final int tvTip=0x7f060002;
+        public static final int tvValEachPay=0x7f06000e;
+        public static final int tvValTipAmount=0x7f06000a;
+        public static final int tvValTotalBill=0x7f06000c;
     }
     public static final class layout {
         public static final int activity_tip_calculation=0x7f030000;
@@ -30,6 +42,11 @@ public final class R {
         public static final int strFive=0x7f040003;
         public static final int strTen=0x7f040004;
         public static final int tfAmount=0x7f040002;
+        public static final int tipPercent=0x7f040006;
+        public static final int tvEachPay=0x7f04000a;
+        public static final int tvPeople=0x7f040007;
+        public static final int tvTipAmount=0x7f040008;
+        public static final int tvTotalBill=0x7f040009;
     }
     public static final class style {
         /** 

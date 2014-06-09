@@ -7,5 +7,10 @@
     <string name="strFive">5 %</string>
     <string name="strTen">10 %</string>
     <string name="strFifteen">15 %</string>
+    <string name="tipPercent">Tip %</string>
+    <string name="tvPeople">People</string>
+    <string name="tvTipAmount">Tip Amount</string>
+    <string name="tvTotalBill">Total Bill</string>
+    <string name="tvEachPay">Each Pays</string>
 
 </resources>
